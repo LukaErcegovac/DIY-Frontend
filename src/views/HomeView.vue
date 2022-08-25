@@ -1,12 +1,24 @@
 <template>
-  <div class="home">Hello</div>
+  <div class="home">
+    <div class="col-4">
+      <span v-if="auth.authenticated">
+        {{ auth.userName }}
+        <br />
+        <br />
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import { authorization } from "@/services";
 
 export default {
   name: "HomeView",
-  components: {},
+  data() {
+    return {
+      auth: authorization.state,
+    };
+  },
 };
 </script>
