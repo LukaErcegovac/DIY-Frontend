@@ -14,9 +14,17 @@ let authorization = {
 
     let user = response.data;
 
-    localStorage.setItem("kljuc", user);
+    localStorage.setItem("kljuc", JSON.stringify(user));
 
     return true;
+  },
+
+  logout() {
+    localStorage.removeItem("kljuc");
+  },
+
+  getUser() {
+    return JSON.parse(localStorage.getItem("kljuc"));
   },
 };
 

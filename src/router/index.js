@@ -1,3 +1,4 @@
+import { authorization } from "@/services";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
@@ -25,6 +26,18 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  let javneStranice = ["/login", "/register"];
+  let needLogin = !javneStranice.includes(to.path);
+  let user = authorization.getUser();
+
+  if (needLogin && !user) {
+    return next("/login");
+  }
+
+  next();
 });
 
 export default router;

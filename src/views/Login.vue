@@ -59,7 +59,11 @@ export default {
   methods: {
     async login() {
       let response = await authorization.login(this.email, this.password);
-      console.log("Rezultat je: ", JSON.stringify(response));
+      console.log("Rezultat je: ", response);
+
+      if (response == true) {
+        this.$router.push({ name: "home" });
+      }
     },
   },
 };
