@@ -29,15 +29,29 @@ service.interceptors.response.use(
 );
 
 let authorization = {
-  async login(username, password) {
+  async login(email, password) {
     let response = await service.post("/auth", {
-      username: username,
+      email: email,
       password: password,
     });
 
     let user = response.data;
 
     localStorage.setItem("kljuc", JSON.stringify(user));
+
+    return true;
+  },
+
+  async register(email, username, password, datum_rodjenja, grad) {
+    let data = {
+      email: email,
+      username: username,
+      password: password,
+      datum_rodjenja: datum_rodjenja,
+      grad: grad,
+    };
+
+    await service.post("/users", data);
 
     return true;
   },
@@ -86,4 +100,54 @@ let authorization = {
   },
 };
 
-export { service, authorization };
+let posts = {
+  async newPost(naslov, opis, alati, materijali) {
+    //let user = authorization.getUser();
+    //if (user) {
+    let post = {
+      naslov,
+      opis,
+      alati,
+      materijali,
+    };
+    return service.post("/posts", post);
+    //}
+  },
+
+  async getAll(searchTerm) {
+    let options = {};
+
+    if (searchTerm) {
+      options.params = {
+        _any: searchTerm,
+      };
+    }
+
+    let response = await service.get("/posts", options);
+    return response.data.map((posts) => {
+      return {
+        id: posts._id,
+        url: posts.source,
+        email: posts.createdBy,
+        title: posts.title,
+        postedAt: Number(posts.postedAt),
+      };
+    });
+  },
+
+  async getOne(id) {
+    let response = await service.get(`/posts/${id}`);
+
+    let post = response.data;
+
+    return {
+      id: post._id,
+      url: post.source,
+      email: post.createdBy,
+      title: post.title,
+      postedAt: Number(post.postedAt),
+    };
+  },
+};
+
+export { service, authorization, posts };

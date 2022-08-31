@@ -1,6 +1,17 @@
 <template>
-  <div class="home">
-    <div class="col-4">
+  <div class="row">
+    <div class="col">
+      <router-link :to="{ name: 'newpost' }">
+        <button
+          type="Novi post"
+          style="margin-bottom: 10px"
+          class="btn btn-primary"
+        >
+          New DIY
+        </button>
+      </router-link>
+    </div>
+    <div class="col-2 ms-auto">
       <span v-if="auth.authenticated">
         {{ auth.userName }}
         <br />
@@ -22,3 +33,5 @@ export default {
   },
 };
 </script>
+
+<style></style>

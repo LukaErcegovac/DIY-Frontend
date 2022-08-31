@@ -1,10 +1,39 @@
 <template>
   <div id="app">
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Prolazna ocjena
+            </h5>
+          </div>
+          <div class="modal-body">Može li 2? Plsss</div>
+        </div>
+      </div>
+    </div>
+    <!-- APP -->
     <div class="bg-white">
       <div class="container">
         <div class="row">
           <div class="col">
             <nav class="navbar navbar-expand-lg navbar-light mb-2">
+              <button
+                type="button"
+                class="btn"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                <img src="@/assets/DIY.jpg" width="140" />
+              </button>
               <button
                 class="navbar-toggler"
                 type="button"
@@ -18,18 +47,20 @@
               </button>
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline my-2 my-lg-0 mr-auto ml-5">
-                  <input
-                    v-model="searchTerm"
-                    class="form-control mr-sm-2"
-                    type="search"
-                    placeholder="Pretraga..."
-                    aria-label="Search"
-                  />
-                </form>
+                <div class="container w-25">
+                  <form class="form-inline my-2 my-lg-0 mr-auto ml-5">
+                    <input
+                      v-model="searchTerm"
+                      class="form-control mr-sm-2"
+                      type="search"
+                      placeholder="Pretraga..."
+                      aria-label="Search"
+                    />
+                  </form>
+                </div>
                 <router-link
                   v-if="!auth.authenticated"
-                  class="btn btn-info my-2 my-sm-0 mr-2"
+                  class="btn btn btn-dark my-2 my-sm-0 mr-2"
                   to="/login"
                 >
                   Login
@@ -37,7 +68,7 @@
                 <span v-if="auth.authenticated">
                   <a
                     @click="logout"
-                    class="btn btn-info my-2 my-sm-0 mr-2"
+                    class="btn btn-dark my-2 my-sm-2 mx-5"
                     href="#"
                     >Logout</a
                   >
@@ -66,8 +97,9 @@
   </div>
 </template>
 <script>
-import { authorization } from "./services";
 import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { authorization } from "./services";
 
 export default {
   data() {
@@ -100,7 +132,7 @@ nav.navbar {
   background-color: white;
   a {
     svg {
-      border-right: #aaa 1px solid;
+      border-right: rgb(12, 0, 0) 1px solid;
       margin-right: 10px;
       padding-right: 10px;
     }
