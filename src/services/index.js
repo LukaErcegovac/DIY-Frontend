@@ -5,18 +5,17 @@ let service = axios.create({
   baseURL: "http://localhost:3000/",
   timeout: 1000,
 });
-/*
-service.interceptors.request.use((request) => {
-  let token = authorization.getToken();
 
-  if (!token) {
-    return $router.go();
-  } else {
-    request.headers["Authorization"] = "Bearer" + token;
-  }
-  return request;
-});
-*/
+// service.interceptors.request.use((request) => {
+//   let token = authorization.getToken();
+
+//   if (token) {
+//     request.headers["authorization"] = "Bearer" + token;
+//   } else {
+//     return $router.go();
+//   }
+//   return request;
+// });
 
 service.interceptors.response.use(
   (response) => response,
@@ -54,6 +53,21 @@ let authorization = {
     await service.post("/users", data);
 
     return true;
+  },
+
+  async getAllUsers() {
+    let users = await service.get("/users");
+    delete users.password;
+
+    return users.data;
+  },
+
+  async getUserDetails(_id) {
+    let response = await service.get(`/users/${_id}`);
+
+    let user = response.data;
+
+    return user;
   },
 
   logout() {
@@ -94,7 +108,6 @@ let authorization = {
       }
     },
   },
-
   search: {
     searchTerm: " ",
   },
@@ -102,51 +115,30 @@ let authorization = {
 
 let posts = {
   async newPost(naslov, opis, alati, materijali) {
-    //let user = authorization.getUser();
-    //if (user) {
     let post = {
       naslov,
       opis,
       alati,
       materijali,
     };
-    return service.post("/posts", post);
-    //}
-  },
-
-  async getAll(searchTerm) {
-    let options = {};
-
-    if (searchTerm) {
-      options.params = {
-        _any: searchTerm,
-      };
-    }
-
-    let response = await service.get("/posts", options);
-    return response.data.map((posts) => {
-      return {
-        id: posts._id,
-        url: posts.source,
-        email: posts.createdBy,
-        title: posts.title,
-        postedAt: Number(posts.postedAt),
-      };
+    await service.post("/posts", post).then((response) => {
+      console.log(response);
     });
+
+    return true;
   },
 
-  async getOne(id) {
-    let response = await service.get(`/posts/${id}`);
+  async getAll() {
+    let posts = await service.get("/posts");
+    return posts.data;
+  },
+
+  async getOne(_id) {
+    let response = await service.get(`/posts/${_id}`);
 
     let post = response.data;
 
-    return {
-      id: post._id,
-      url: post.source,
-      email: post.createdBy,
-      title: post.title,
-      postedAt: Number(post.postedAt),
-    };
+    return post;
   },
 };
 

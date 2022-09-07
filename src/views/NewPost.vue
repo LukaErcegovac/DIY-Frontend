@@ -20,36 +20,43 @@
           </div>
           <div class="form-group">
             <label for="opisField">Opis</label>
-            <input
+            <textarea
               v-model="opis"
-              type="naslov"
-              class="form-control"
               id="opisField"
+              type="opis"
+              class="form-control"
+              cols="10"
+              rows="5"
+              name="opisField"
               aria-describedby="opisHelp"
               placeholder="Unesi opis"
-            />
+            ></textarea>
           </div>
           <div class="form-group">
             <label for="materijaliField">Materijali</label>
-            <input
+            <textarea
               v-model="materijali"
               type="materijali"
               class="form-control"
               id="materijaliField"
+              cols="10"
+              rows="5"
               aria-describedby="materijaliHelp"
               placeholder="Unesi materijale korištene u izradi"
-            />
+            ></textarea>
           </div>
           <div class="form-group">
             <label for="alatiField">Alati</label>
-            <input
+            <textarea
               v-model="alati"
               type="alati"
               class="form-control"
               id="alatiField"
+              cols="10"
+              rows="5"
               aria-describedby="alatiHelp"
               placeholder="Unesi alate korištene u izradi"
-            />
+            ></textarea>
           </div>
           <button
             type="submit"
