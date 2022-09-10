@@ -6,16 +6,15 @@ let service = axios.create({
   timeout: 1000,
 });
 
-// service.interceptors.request.use((request) => {
-//   let token = authorization.getToken();
+service.interceptors.request.use((request) => {
+  let token = authorization.getToken();
 
-//   if (token) {
-//     request.headers["authorization"] = "Bearer" + token;
-//   } else {
-//     return $router.go();
-//   }
-//   return request;
-// });
+  if (token) {
+    request.headers["authorization"] = "Bearer " + token;
+  }
+
+  return request;
+});
 
 service.interceptors.response.use(
   (response) => response,
@@ -130,6 +129,11 @@ let posts = {
 
   async getAll() {
     let posts = await service.get("/posts");
+    posts.data.sort(function (a, b) {
+      var dateA = new Date(a.postedAt),
+        dateB = new Date(b.postedAt);
+      return dateB - dateA;
+    });
     return posts.data;
   },
 
@@ -142,4 +146,32 @@ let posts = {
   },
 };
 
-export { service, authorization, posts };
+let comments = {
+  async newComment(comment, postId) {
+    let com = {
+      comment,
+    };
+
+    await service.post(`/posts/${postId}/comments`, com).then((response) => {
+      return response;
+    });
+  },
+
+  async getAllComments(postId) {
+    postId = localStorage.getItem("post");
+    console.log("postId: ", postId);
+    let response = await service.get(`/comments/${postId}`);
+
+    let comments = response.data;
+
+    comments.sort(function (a, b) {
+      var dateA = new Date(a.postedAt),
+        dateB = new Date(b.postedAt);
+      return dateB - dateA;
+    });
+
+    return comments;
+  },
+};
+
+export { service, authorization, posts, comments };

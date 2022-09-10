@@ -84,7 +84,9 @@ export default {
     },
     async getUser() {
       let response = await authorization.getAllUsers();
-      this.users = response;
+      this.users = response.filter(
+        (u) => u.username != JSON.parse(localStorage.getItem("kljuc")).username
+      );
     },
   },
 
