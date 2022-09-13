@@ -3,15 +3,15 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="errorModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="errorModal"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="errorModal">Modal title</h5>
           </div>
           <div class="modal-body" v-if="password != password2">
             Passwords don't mach!
@@ -107,7 +107,7 @@
             type="submit"
             class="btn btn-primary mt-5"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#errorModal"
           >
             Submit
           </button>

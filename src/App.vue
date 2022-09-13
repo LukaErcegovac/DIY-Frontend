@@ -102,6 +102,7 @@ export default {
     return {
       ...authorization.search,
       auth: authorization.state,
+      searchTerm: "",
     };
   },
 

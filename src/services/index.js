@@ -107,18 +107,16 @@ let authorization = {
       }
     },
   },
-  search: {
-    searchTerm: " ",
-  },
 };
 
 let posts = {
-  async newPost(naslov, opis, alati, materijali) {
+  async newPost(naslov, opis, alati, materijali, postedBy) {
     let post = {
       naslov,
       opis,
       alati,
       materijali,
+      postedBy,
     };
     await service.post("/posts", post).then((response) => {
       console.log(response);
@@ -144,12 +142,30 @@ let posts = {
 
     return post;
   },
+
+  async deletPost(_id) {
+    let response = await service.delete(`/posts/${_id}`);
+    return true;
+  },
+
+  async updatePost(_id, naslov, opis, alati, materijali) {
+    let post = {
+      naslov,
+      opis,
+      alati,
+      materijali,
+    };
+    await service.patch(`/posts/${_id}`, post);
+
+    return post;
+  },
 };
 
 let comments = {
-  async newComment(comment, postId) {
+  async newComment(comment, postId, commentedBy) {
     let com = {
       comment,
+      commentedBy,
     };
 
     await service.post(`/posts/${postId}/comments`, com).then((response) => {

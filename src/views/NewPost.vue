@@ -58,14 +58,7 @@
               placeholder="Unesi alate korištene u izradi"
             ></textarea>
           </div>
-          <button
-            type="submit"
-            class="btn btn-primary mt-5"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Submit
-          </button>
+          <button type="submit" class="btn btn-primary mt-5">Submit</button>
         </form>
       </div>
     </div>
@@ -83,17 +76,21 @@ export default {
       opis: "",
       materijali: "",
       alati: "",
+      postedBy: "",
     };
   },
 
   methods: {
     async newPost() {
+      let user = JSON.parse(localStorage.getItem("kljuc")).username;
+
       try {
         let newpost = await posts.newPost(
           this.naslov,
           this.opis,
           this.materijali,
-          this.alati
+          this.alati,
+          (this.postedBy = user)
         );
 
         console.log(newpost);

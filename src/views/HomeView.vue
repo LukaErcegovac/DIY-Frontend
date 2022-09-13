@@ -11,7 +11,29 @@
         </button>
       </router-link>
     </div>
-    <div class="col-2 ms-auto">
+
+    <div class="col-6">
+      <div class="col-5" v-for="post in posts" :key="post._id">
+        <div class="card my-2" style="width: 18rem">
+          <img src="" class="card-img-top" alt="" />
+          <div class="card-body">
+            <h5 class="card-title">{{ post.naslov }}</h5>
+            <p class="card-text">
+              Posted by: {{ post.postedBy }}<br />
+              {{ post.postedAt }}
+            </p>
+            <a
+              href="/postdetail"
+              class="btn btn-primary"
+              @click="setPostId(post._id)"
+              >Details</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-2">
       <span v-if="auth.authenticated">
         <h5>Current user:</h5>
         {{ auth.userName }}
@@ -22,29 +44,10 @@
       <div v-for="user in users" :key="user._id">
         <a
           href="/userdetails"
-          class="btn btn-primary"
+          class="btn btn-primary my-1"
           @click="setUserId(user._id)"
           >{{ user.username }}</a
         >
-      </div>
-    </div>
-
-    <div class="row" v-for="post in posts" :key="post._id">
-      <div class="col-5"></div>
-      <div class="col-5">
-        <div class="card" style="width: 18rem">
-          <img src="" class="card-img-top" alt="" />
-          <div class="card-body">
-            <h5 class="card-title">{{ post.naslov }}</h5>
-            <p class="card-text">{{ post.postedAt }}</p>
-            <a
-              href="/postdetail"
-              class="btn btn-primary"
-              @click="setPostId(post._id)"
-              >Details</a
-            >
-          </div>
-        </div>
       </div>
     </div>
   </div>
