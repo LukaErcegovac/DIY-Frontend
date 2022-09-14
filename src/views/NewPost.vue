@@ -19,7 +19,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="opisField">Opis</label>
+            <label for="opisField">Opis / Postupak izrade</label>
             <textarea
               v-model="opis"
               id="opisField"
@@ -29,7 +29,7 @@
               rows="5"
               name="opisField"
               aria-describedby="opisHelp"
-              placeholder="Unesi opis"
+              placeholder="Unesi opis / Postupak izrade"
             ></textarea>
           </div>
           <div class="form-group">
