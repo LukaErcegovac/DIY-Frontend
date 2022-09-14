@@ -2,7 +2,7 @@ import axios from "axios";
 import $router from "@/router";
 
 let service = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://diyback.herokuapp.com/",
   timeout: 1000,
 });
 
