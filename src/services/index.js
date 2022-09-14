@@ -40,13 +40,14 @@ let authorization = {
     return true;
   },
 
-  async register(email, username, password, datum_rodjenja, grad) {
+  async register(email, username, password, datum_rodjenja, grad, follow) {
     let data = {
-      email: email,
-      username: username,
-      password: password,
-      datum_rodjenja: datum_rodjenja,
-      grad: grad,
+      email,
+      username,
+      password,
+      datum_rodjenja,
+      grad,
+      follow,
     };
 
     await service.post("/users", data);
@@ -65,6 +66,13 @@ let authorization = {
     let response = await service.get(`/users/${_id}`);
 
     let user = response.data;
+
+    let detuser = {
+      _id: user._id,
+      username: user.username,
+    };
+
+    localStorage.setItem("detailuser", JSON.stringify(detuser));
 
     return user;
   },
@@ -107,6 +115,16 @@ let authorization = {
       }
     },
   },
+
+  async putFollow(username, usertoFollow) {
+    let follow = {
+      username: username,
+      usertoFollow: usertoFollow,
+    };
+
+    let response = await service.put("/following", follow);
+    return response;
+  },
 };
 
 let posts = {
@@ -125,8 +143,16 @@ let posts = {
     return true;
   },
 
-  async getAll() {
-    let posts = await service.get("/posts");
+  async getAll(searchTerm) {
+    let terms = {};
+
+    if (searchTerm) {
+      terms.params = {
+        _any: searchTerm,
+      };
+    }
+
+    let posts = await service.get("/posts", terms);
     posts.data.sort(function (a, b) {
       var dateA = new Date(a.postedAt),
         dateB = new Date(b.postedAt);

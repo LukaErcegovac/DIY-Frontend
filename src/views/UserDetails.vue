@@ -5,7 +5,7 @@
       <div class="card" style="width: 18rem">
         <div class="card-body">
           <h4 class="card-title">User</h4>
-          <p class="card-text">
+          <div class="card-text">
             <b>Email:</b><br />
             {{ user.email }}<br />
             <b>Username:</b> <br />
@@ -14,8 +14,20 @@
             {{ user.grad }}<br />
             <b>Datum rođenja:</b> <br />
             {{ user.datum_rodjenja }}<br />
-          </p>
+            <b>Follow:</b> <br />
+            <div v-for="f in user.follow" :key="f.followingName">
+              {{ f.followingName }}<br />
+            </div>
+          </div>
         </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          v-if="user.username != auth.userName"
+          @click="newFollow"
+        >
+          Follow
+        </button>
       </div>
     </div>
   </div>
@@ -30,6 +42,10 @@ export default {
   data() {
     return {
       user: [],
+      rez: [],
+      auth: authorization.state,
+      username: "",
+      usertoFollow: "",
     };
   },
 
@@ -37,6 +53,26 @@ export default {
     async getUser() {
       let response = await authorization.getUserDetails(this._id);
       this.user = response;
+    },
+
+    async newFollow() {
+      await authorization
+        .putFollow(this.username, this.usertoFollow)
+        .then((response) => {
+          if (response.data == "Ok") {
+            alert("User followed");
+          } else if (response.data == "Existing") {
+            alert("Alredy following this user");
+          }
+        });
+
+      this.usertoFollow = JSON.parse(
+        localStorage.getItem("detailuser")
+      ).username;
+      console.log(this.usertoFollow);
+
+      this.username = JSON.parse(localStorage.getItem("kljuc")).username;
+      console.log(this.username);
     },
   },
 

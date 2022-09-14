@@ -14,7 +14,14 @@
 
     <div class="col-6">
       <div class="col-5" v-for="post in posts" :key="post._id">
-        <div class="card my-2" style="width: 18rem">
+        <div
+          class="card my-2"
+          style="width: 18rem"
+          v-if="
+            post.naslov.includes(store.searchTerm) ||
+            post.postedBy.includes(store.searchTerm)
+          "
+        >
           <img src="" class="card-img-top" alt="" />
           <div class="card-body">
             <h5 class="card-title">{{ post.naslov }}</h5>
@@ -36,13 +43,25 @@
     <div class="col-2">
       <span v-if="auth.authenticated">
         <h5>Current user:</h5>
-        {{ auth.userName }}
+        <a
+          href="/userdetails"
+          class="btn btn-primary my-1"
+          @click="
+            setUserId(
+              users.find((u) => {
+                return u.username == auth.userName;
+              })._id
+            )
+          "
+          >{{ auth.userName }}</a
+        >
         <br />
         <br />
       </span>
       <h5>All users:</h5>
       <div v-for="user in users" :key="user._id">
         <a
+          v-if="user.username != auth.userName"
           href="/userdetails"
           class="btn btn-primary my-1"
           @click="setUserId(user._id)"
@@ -55,6 +74,7 @@
 
 <script>
 import { authorization, posts } from "@/services";
+import store from "@/Store.js";
 
 export default {
   name: "HomeView",
@@ -63,6 +83,7 @@ export default {
       auth: authorization.state,
       posts: [],
       users: [],
+      store,
     };
   },
 
@@ -75,9 +96,10 @@ export default {
       localStorage.setItem("post", i);
     },
 
-    removeId() {
+    remove() {
       localStorage.removeItem("post");
       localStorage.removeItem("userdetail");
+      localStorage.removeItem("detailuser");
     },
 
     async getPosts() {
@@ -87,16 +109,14 @@ export default {
     },
     async getUser() {
       let response = await authorization.getAllUsers();
-      this.users = response.filter(
-        (u) => u.username != JSON.parse(localStorage.getItem("kljuc")).username
-      );
+      this.users = response;
     },
   },
 
   mounted() {
     this.getPosts();
     this.getUser();
-    this.removeId();
+    this.remove();
   },
 };
 </script>

@@ -50,10 +50,10 @@
                 <div class="container w-25">
                   <form class="form-inline my-2 my-lg-0 mr-auto ml-5">
                     <input
-                      v-model="searchTerm"
+                      v-model="store.searchTerm"
                       class="form-control mr-sm-2"
                       type="search"
-                      placeholder="Pretraga..."
+                      placeholder="Search..."
                       aria-label="Search"
                     />
                   </form>
@@ -95,14 +95,14 @@
 <script>
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { authorization } from "./services";
+import { authorization, posts } from "./services";
+import store from "@/Store.js";
 
 export default {
   data() {
     return {
-      ...authorization.search,
       auth: authorization.state,
-      searchTerm: "",
+      store,
     };
   },
 
