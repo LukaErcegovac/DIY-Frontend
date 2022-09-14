@@ -207,8 +207,8 @@ export default {
         this.materijali,
         this.alati
       );
+      await this.getPost();
       console.log(response);
-      window.location.reload();
     },
 
     async delPost() {
