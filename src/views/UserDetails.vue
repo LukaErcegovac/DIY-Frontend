@@ -56,6 +56,14 @@ export default {
     },
 
     async newFollow() {
+      this.usertoFollow = JSON.parse(
+        localStorage.getItem("detailuser")
+      ).username;
+      console.log(this.usertoFollow);
+
+      this.username = JSON.parse(localStorage.getItem("kljuc")).username;
+      console.log(this.username);
+
       await authorization
         .putFollow(this.username, this.usertoFollow)
         .then((response) => {
@@ -65,14 +73,6 @@ export default {
             alert("Alredy following this user");
           }
         });
-
-      this.usertoFollow = JSON.parse(
-        localStorage.getItem("detailuser")
-      ).username;
-      console.log(this.usertoFollow);
-
-      this.username = JSON.parse(localStorage.getItem("kljuc")).username;
-      console.log(this.username);
     },
   },
 

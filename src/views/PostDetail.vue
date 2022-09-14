@@ -141,8 +141,6 @@
             type="button"
             class="btn btn-primary my-2"
             @click="postComment"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
           >
             Submit
           </button>
@@ -238,7 +236,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      window.location.reload();
+      await this.getComments();
     },
   },
   mounted() {

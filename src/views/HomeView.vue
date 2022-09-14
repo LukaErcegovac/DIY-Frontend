@@ -29,12 +29,7 @@
               Posted by: {{ post.postedBy }}<br />
               {{ post.postedAt }}
             </p>
-            <a
-              href="/postdetail"
-              class="btn btn-primary"
-              @click="setPostId(post._id)"
-              >Details</a
-            >
+            <a class="btn btn-primary" @click="setPostId(post._id)">Details</a>
           </div>
         </div>
       </div>
@@ -44,7 +39,6 @@
       <span v-if="auth.authenticated">
         <h5>Current user:</h5>
         <a
-          href="/userdetails"
           class="btn btn-primary my-1"
           @click="
             setUserId(
@@ -62,7 +56,6 @@
       <div v-for="user in users" :key="user._id">
         <a
           v-if="user.username != auth.userName"
-          href="/userdetails"
           class="btn btn-primary my-1"
           @click="setUserId(user._id)"
           >{{ user.username }}</a
@@ -90,10 +83,14 @@ export default {
   methods: {
     setUserId(i) {
       localStorage.setItem("userdetail", i);
+
+      this.$router.push({ name: "userdetails" });
     },
 
     setPostId(i) {
       localStorage.setItem("post", i);
+
+      this.$router.push({ name: "postdetail" });
     },
 
     remove() {
